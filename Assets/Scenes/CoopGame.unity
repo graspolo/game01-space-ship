@@ -1549,7 +1549,7 @@ MonoBehaviour:
   - {fileID: 5592247363469318843, guid: 0b9a1862e9502a94e833ca2f904e80cb, type: 3}
   - {fileID: 7605504722305486254, guid: 4960f4851d8bdba4f8b5d7fc59535d6b, type: 3}
   - {fileID: 5773197216375611000, guid: b31cf75bdeb5ef94693ddfce53653dde, type: 3}
-  _gameManager: {fileID: 964619509}
+  _gameManager: {fileID: 964619510}
 --- !u!4 &560136479
 Transform:
   m_ObjectHideFlags: 0
@@ -2051,6 +2051,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGameOver: 0
   isCoOpMode: 1
+  _pauseMenuPanel: {fileID: 0}
 --- !u!4 &964619511
 Transform:
   m_ObjectHideFlags: 0
