@@ -16,7 +16,10 @@ public class UI_Manager_script : MonoBehaviour
     private TMP_Text _restartText;
     [SerializeField]
     private List<Sprite> _sprites;
+    [SerializeField]
+    private TMP_Text _bestScoreText;
 
+    private int bestScore = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,6 +27,8 @@ public class UI_Manager_script : MonoBehaviour
         _scoreText.text = "Score: " + 0;
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
+        _livesImage.sprite = _sprites[3];
+        bestScore = PlayerPrefs.GetInt("BestScore", 0);
         UpdateLives(3);
     }
 
@@ -33,15 +38,26 @@ public class UI_Manager_script : MonoBehaviour
 
     }
 
+    public void CheckForBestScore(int score)
+    {
+        if (score > bestScore)
+        {
+            bestScore = score;
+            PlayerPrefs.SetInt("BestScore", bestScore);
+        }
+        _bestScoreText.text = "Best: " + bestScore; 
+    }
+
     public void UpdateScore(int score)
     {
         _scoreText.text = "Score: " + score;
+        CheckForBestScore(score);
     }
 
     public void UpdateLives(int lives) 
     {
         _livesImage.sprite = _sprites[lives];
-        if (lives == 0)
+        if (lives <= 0)
         {
             _restartText.gameObject.SetActive(true);
             StartCoroutine(GameOverFlickerCoroutine());
