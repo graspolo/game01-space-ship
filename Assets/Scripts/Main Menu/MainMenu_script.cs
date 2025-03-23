@@ -12,7 +12,10 @@ public class MainMenu_script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            QuitGame();
+        }
     }
 
     public void LoadOnePlayerGame()
@@ -22,5 +25,10 @@ public class MainMenu_script : MonoBehaviour
     public void LoadTwoPlayersGame()
     {
         SceneManager.LoadScene(2); //Two players Scene
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

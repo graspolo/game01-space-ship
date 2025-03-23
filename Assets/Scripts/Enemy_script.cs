@@ -7,6 +7,7 @@ public class Enemy_script : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 4f;
+    private bool _isAlive = true;
     private List<Player_script> _players;
     private Animator _anim;
     private float _canFire = -1f;
@@ -29,6 +30,7 @@ public class Enemy_script : MonoBehaviour
         {
             Debug.LogError("Animator is null!");
         }
+        _isAlive = true;
     }
     void Update()
     {
@@ -42,13 +44,13 @@ public class Enemy_script : MonoBehaviour
 
         if (transform.position.y < -4.6)
         {
-            transform.position = new Vector3(Random.Range(-11f, 11f), 7, 0);
+            transform.position = new Vector3(Random.Range(-9.5f, 9.5f), 7, 0);
         }
     }
 
     private void Shoot()
     {
-        if (Time.time > _canFire)
+        if (Time.time > _canFire && _isAlive)
         {
             _fireRate = Random.Range(3f, 7f);
             _canFire = Time.time + _fireRate;
@@ -65,8 +67,14 @@ public class Enemy_script : MonoBehaviour
     {
         if (other.transform.tag == "Player")
         {
+            _isAlive = false;
             Player_script player = other.transform.GetComponent<Player_script>();
-            if (player != null ) player.TakeDamage();
+            if (player != null)
+            {
+                player.TakeDamage();
+                player.AddScore(50);
+            }
+
             _anim.SetTrigger("OnEnemyDeath");
             _speed = 0;
             GetComponent<AudioSource>().Play();
@@ -75,6 +83,7 @@ public class Enemy_script : MonoBehaviour
         }
         else if (other.transform.tag == "Laser")
         {
+            _isAlive = false;
             var enemyLaser = other.GetComponent<Laser_script>();
             if ( enemyLaser != null && !enemyLaser.IsEnemyLaser())
             {

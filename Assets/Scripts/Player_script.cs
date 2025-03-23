@@ -1,6 +1,7 @@
 using Assets.Scripts.Enums;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player_script : MonoBehaviour
@@ -48,13 +49,20 @@ public class Player_script : MonoBehaviour
     [SerializeField]
     private int _playerNumber = 1;
 
+    [SerializeField]
+    private BoxCollider2D _collider;
+
     private int score = 0;
 
     [SerializeField]
     private UI_Manager_script _uiManagerScript;
+
+    private Dictionary<PowerupEnum, Coroutine> _activePowerdowns = new();
+
     void Start()
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager_script>();
+        _collider = GetComponent<BoxCollider2D>();
         _leftEngine.gameObject.SetActive(false);
         _rightEngine.gameObject.SetActive(false);
 
@@ -173,6 +181,8 @@ public class Player_script : MonoBehaviour
     {
         if (_isShieldActive == false)
         {
+            _collider.enabled = false;
+
             this._lives--;
             if (this._lives == 2)
                 _rightEngine.gameObject.SetActive(true);
@@ -197,19 +207,31 @@ public class Player_script : MonoBehaviour
     public void ActivateTripleShot()
     {
         _isTripleShotActive = true;
-        StartCoroutine(PowerdownCoroutine(PowerupEnum.TripleShot));
+        RestartPowerdownCoroutine(PowerupEnum.TripleShot);
     }
 
     public void ActivateSpeed()
     {
         _isSpeedActive = true;
-        StartCoroutine(PowerdownCoroutine(PowerupEnum.Speed));
+        RestartPowerdownCoroutine(PowerupEnum.Speed);
     }
 
     public void ActivateShield()
     {
         _shield.SetActive(true);
         _isShieldActive = true;
+    }
+
+
+    private void RestartPowerdownCoroutine(PowerupEnum powerupId)
+    {
+        if (_activePowerdowns.TryGetValue(powerupId, out Coroutine existingCoroutine))
+        {
+            StopCoroutine(existingCoroutine);
+        }
+
+        Coroutine newCoroutine = StartCoroutine(PowerdownCoroutine(powerupId));
+        _activePowerdowns[powerupId] = newCoroutine;
     }
 
     public void AddScore(int newScore)
@@ -243,14 +265,14 @@ public class Player_script : MonoBehaviour
 
         }
 
+        _activePowerdowns.Remove(powerupId);
+
+
     }
 
     private IEnumerator TakeDamageFlickerCoroutine()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        BoxCollider2D collider = GetComponent<BoxCollider2D>();
-
-        collider.enabled = false;
 
         float flickerDuration = 0.5f;
         float flickerInterval = 0.1f;
@@ -264,6 +286,11 @@ public class Player_script : MonoBehaviour
             yield return new WaitForSeconds(flickerInterval);
         }
 
-        collider.enabled = true;
+        _collider.enabled = true;
+    }
+
+    public int GetPlayerNumber() 
+    {
+        return _playerNumber; 
     }
 }

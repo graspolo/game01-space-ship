@@ -302,6 +302,7 @@ MonoBehaviour:
   _rightEngine: {fileID: 691553299}
   _laserSFX: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _playerNumber: 1
+  _collider: {fileID: 0}
   _uiManagerScript: {fileID: 181536349}
 --- !u!212 &83159905
 SpriteRenderer:

@@ -39,7 +39,7 @@ public class Spawner_script : MonoBehaviour
         yield return new WaitForSeconds(3f);
         while (_stopSpawning == false && _gameManager.isGameOver == false)
         {
-            Vector3 spawnPos = new Vector3(Random.Range(-8f, 8f), 7, 0);
+            Vector3 spawnPos = new Vector3(Random.Range(-9.5f, 9.5f), 7, 0);
             GameObject newEnemy = Instantiate(_enemyPrefab, spawnPos, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
 
@@ -54,7 +54,7 @@ public class Spawner_script : MonoBehaviour
         while (_stopSpawning == false && _gameManager.isGameOver == false)
         {
             Vector3 spawnPos = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            Instantiate(_powerups[Random.Range(0,3)], spawnPos, Quaternion.identity);
+            Instantiate(_powerups[Random.Range(0, 3)], spawnPos, Quaternion.identity);
 
             yield return new WaitForSeconds(Random.Range(3f, 7f));
 

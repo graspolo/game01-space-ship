@@ -3,53 +3,28 @@ using UnityEngine;
 public class PlayerAnimation_script : MonoBehaviour
 {
     private Animator _anim;
+    private Player_script _playerScript;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _anim = GetComponent<Animator>();
+        _playerScript = GetComponent<Player_script>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float moveDirection = Input.GetAxisRaw("Horizontal"); // -1 (sinistra), 1 (destra), 0 (fermo)
-        _anim.SetFloat("Direction", moveDirection);
-    }
-
-    private void animatePlayerOne()
-    {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (_playerScript.GetPlayerNumber() == 1)
         {
-            _anim.SetInteger("Move", 1);
+            float moveDirection = Input.GetAxisRaw("Horizontal"); // -1 (sinistra), 1 (destra), 0 (fermo)
+            _anim.SetFloat("Direction", moveDirection);
         }
-        else if (Input.GetKeyUp(KeyCode.W))
+        else
         {
-            _anim.SetInteger("Move", 0);
+            float moveDirection = Input.GetAxisRaw("Horizontal2"); // -1 (sinistra), 1 (destra), 0 (fermo)
+            _anim.SetFloat("Direction", moveDirection);
         }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            _anim.SetInteger("Move", 2);
-        }
-        else if (Input.GetKeyUp(KeyCode.S))
-        {
-            _anim.SetInteger("Move", 0);
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            _anim.SetInteger("Move", 3);
-        }
-        else if (Input.GetKeyUp(KeyCode.A))
-        {
-            _anim.SetInteger("Move", 0);
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            _anim.SetInteger("Move", 4);
-        }
-        else if (Input.GetKeyUp(KeyCode.D))
-        {
-            _anim.SetInteger("Move", 0);
-        }
+        
     }
 }
 

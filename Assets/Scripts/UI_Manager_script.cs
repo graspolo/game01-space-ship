@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -29,6 +30,7 @@ public class UI_Manager_script : MonoBehaviour
         _restartText.gameObject.SetActive(false);
         _livesImage.sprite = _sprites[3];
         bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        _bestScoreText.text = "Best: " + bestScore;
         UpdateLives(3);
     }
 
@@ -56,7 +58,7 @@ public class UI_Manager_script : MonoBehaviour
 
     public void UpdateLives(int lives) 
     {
-        _livesImage.sprite = _sprites[lives];
+        _livesImage.sprite = _sprites[Math.Max(lives,0)];
         if (lives <= 0)
         {
             _restartText.gameObject.SetActive(true);

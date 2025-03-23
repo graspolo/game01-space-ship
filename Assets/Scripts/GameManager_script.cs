@@ -9,7 +9,6 @@ public class GameManager_script : MonoBehaviour
     public bool isCoOpMode = false;
     private bool _isGamePaused = false;
     private bool _isEasterEggActive = false;
-
     [SerializeField]
     private GameObject _pauseMenuPanel;
 
@@ -49,11 +48,6 @@ public class GameManager_script : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            QuitGame();
-        }
-
         if (Input.GetKeyDown(KeyCode.P))
         {
             PauseGame();
@@ -63,6 +57,18 @@ public class GameManager_script : MonoBehaviour
         {
             PlayEasterEgg();
         }   
+
+        if (Input.GetKey(KeyCode.R))
+        {
+            if (isCoOpMode) 
+            {
+                SceneManager.LoadScene(2);
+            }
+            else
+            {
+                SceneManager.LoadScene(1);
+            }
+        }
     }
 
     public void GameOver()
